@@ -750,6 +750,8 @@ extern void cts_firmware_upgrade_work(struct work_struct *work);
 extern bool cts_is_device_suspended(const struct cts_device *cts_dev);
 extern int cts_suspend_device(struct cts_device *cts_dev);
 extern int cts_resume_device(struct cts_device *cts_dev);
+extern int cts_suspend(struct chipone_ts_data *cts_data);
+extern int cts_resume(struct chipone_ts_data *cts_data);
 
 extern bool cts_is_device_program_mode(const struct cts_device *cts_dev);
 extern int cts_enter_program_mode(struct cts_device *cts_dev);
