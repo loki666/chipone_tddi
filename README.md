@@ -1,5 +1,7 @@
 # chipone_tddi — ChipOne ICNL9922C TDDI touchscreen driver
 
+[![Build](https://github.com/kevinkreiser/chipone_tddi/actions/workflows/build.yml/badge.svg)](https://github.com/kevinkreiser/chipone_tddi/actions/workflows/build.yml)
+
 Out-of-tree Linux kernel module for the **ChipOne ICNL9922C** TDDI touch
 controller, as used in the **KONKR Pocket FIT** (Qualcomm SM8650) handheld.
 Built for use with [ROCKNIX](https://github.com/ROCKNIX/distribution) on its
