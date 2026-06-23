@@ -10,7 +10,8 @@ mainline-based kernel (7.0.x).
 This is a port of ChipOne's `cts_*` vendor driver, taken from
 `MotorolaMobilityLLC/motorola-kernel-modules`, path
 `drivers/input/touchscreen/chipone_tddi_mmi_v2`
-(tag `android-14-release-u4ui34.8-28-1`). The original copyright and
+(tag `android-14-release-u4ui34.8-28-1`). You can brows the original source
+[here](https://github.com/MotorolaMobilityLLC/motorola-kernel-modules/tree/df9767e77a5450c421538e323dccb1d5213aa50a/drivers/input/touchscreen/chipone_tddi_mmi_v2). The original copyright and
 `SPDX-License-Identifier` headers are retained in each source file.
 
 It was written against a downstream Android kernel (~5.10/6.1 GKI); this fork
