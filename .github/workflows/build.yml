@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y build-essential bc flex bison libssl-dev libelf-dev
+
+      - name: Cache prepared kernel
+        id: cache-kernel
+        uses: actions/cache@v4
+        with:
+          path: /tmp/linux-7.0.11
+          key: linux-7.0.11-prepared-v1
+
+      - name: Download and prepare Linux 7.0.11
+        if: steps.cache-kernel.outputs.cache-hit != 'true'
+        run: |
+          wget -q https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.0.11.tar.xz
+          tar -xf linux-7.0.11.tar.xz -C /tmp
+          cd /tmp/linux-7.0.11
+          make defconfig
+          make modules_prepare
+
+      - name: Build out-of-tree module
+        run: make KDIR=/tmp/linux-7.0.11
