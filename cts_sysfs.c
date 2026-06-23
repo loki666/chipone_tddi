@@ -3173,6 +3173,8 @@ static const struct attribute_group *cts_dev_attr_groups[] = {
 };
 
 extern struct chipone_ts_data *g_cts_data;
+extern int cts_suspend(struct chipone_ts_data *cts_data);
+extern int cts_resume(struct chipone_ts_data *cts_data);
 static ssize_t cts_suspend_show(struct device *dev,
         struct device_attribute *attr, char *buf)
 {
