@@ -538,6 +538,42 @@ static void cts_plat_touch_dev_irq_work(struct work_struct *work)
 #endif /* CONFIG_GENERIC_HARDIRQS */
 
 #ifdef CONFIG_CTS_OF
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0)
+/*
+ * of_get_named_gpio() was removed in kernel 6.3. Use fwnode_gpiod_get_index()
+ * with desc_to_gpio() to preserve the integer GPIO number expected by the
+ * rest of the driver (which still uses the legacy GPIO integer API).
+ */
+static int cts_of_get_named_gpio(struct device_node *np,
+                                  const char *propname, int index)
+{
+    struct fwnode_handle *fwnode = of_fwnode_handle(np);
+    struct gpio_desc *desc;
+    char con_id[64];
+    size_t len;
+    int gpio;
+
+    if (!propname)
+        return -EINVAL;
+
+    /* Strip the "-gpio" suffix; fwnode_gpiod_get_index appends it back. */
+    len = strlen(propname);
+    if (len > 5 && !strcmp(propname + len - 5, "-gpio"))
+        snprintf(con_id, sizeof(con_id), "%.*s", (int)(len - 5), propname);
+    else
+        snprintf(con_id, sizeof(con_id), "%s", propname);
+
+    desc = fwnode_gpiod_get_index(fwnode, con_id, index, GPIOD_ASIS, propname);
+    if (IS_ERR(desc))
+        /* PTR_ERR returns long; Linux error codes always fit in int. */
+        return (int)PTR_ERR(desc);
+    gpio = desc_to_gpio(desc);
+    gpiod_put(desc);
+    return gpio;
+}
+#define of_get_named_gpio cts_of_get_named_gpio
+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0) */
+
 static int cts_plat_parse_dt(struct cts_platform_data *pdata,
         struct device_node *dev_node)
 {
