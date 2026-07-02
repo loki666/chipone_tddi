@@ -33,7 +33,9 @@
 
 #ifdef CONFIG_OF
 #include <linux/of.h>
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 3, 0)
 #include <linux/of_gpio.h>
+#endif
 #include <linux/of_irq.h>
 #endif /* CONFIG_OF */
 
