@@ -27,7 +27,7 @@ jobs:
       - name: Fetch and prepare kernel (7.1.2, arm64, ROCKNIX SM8650 config)
         run: |
           wget -q "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/snapshot/linux-${LINUX_VERSION}.tar.gz"
-          tar xf "linux-${LINUX_VERSION}.tar.xz"
+          tar xf "linux-${LINUX_VERSION}.tar.gz"
           curl -fsSL -o "${KDIR}/.config" \
             "https://raw.githubusercontent.com/ROCKNIX/distribution/next/projects/ROCKNIX/devices/SM8650/linux/linux.aarch64.conf"
           make -C "${KDIR}" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- olddefconfig
