@@ -553,6 +553,9 @@ static int cts_of_get_named_gpio(struct device_node *np,
     size_t len;
     int gpio;
 
+    if (!propname)
+        return -EINVAL;
+
     /* Strip the "-gpio" suffix; fwnode_gpiod_get_index appends it back. */
     len = strlen(propname);
     if (len > 5 && !strcmp(propname + len - 5, "-gpio"))
@@ -562,6 +565,7 @@ static int cts_of_get_named_gpio(struct device_node *np,
 
     desc = fwnode_gpiod_get_index(fwnode, con_id, index, GPIOD_ASIS, propname);
     if (IS_ERR(desc))
+        /* PTR_ERR returns long; Linux error codes always fit in int. */
         return (int)PTR_ERR(desc);
     gpio = desc_to_gpio(desc);
     gpiod_put(desc);
